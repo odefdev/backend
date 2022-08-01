@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ModeloDto.Communication;
-using ModeloDto.Dto;
+using Core.Communication;
+using Core.Dto;
 using Service.Services;
 
 namespace Api.Controllers
@@ -16,9 +16,9 @@ namespace Api.Controllers
             this._usuarioService = usuarioService;
         }
 
-        [HttpPost]
-        [ProducesResponseType(typeof(BaseResponse<UsuarioDTO>), 200)]
-        public async Task<ActionResult<BaseResponse<UsuarioDTO>>> GetEmpleados(UsuarioDTO usuarioDto)
+        [HttpGet]
+        [ProducesResponseType(typeof(BaseResponse<UsuarioDto>), 200)]
+        public async Task<ActionResult<BaseResponse<UsuarioDto>>> GetEmpleados(UsuarioDto usuarioDto)
         {
 
             try
@@ -35,6 +35,11 @@ namespace Api.Controllers
             }
 
             //return Ok(response);
+        }
+        [HttpPost]
+        public ActionResult<BaseResponse<UsuarioDto>> AgregarUsuario([FromBody] UsuarioDto usuario)
+        {
+            return CreatedAtRoute("GetUsuario",new { user=usuario.User},usuario);//esto envia status code 201
         }
     }
 }
